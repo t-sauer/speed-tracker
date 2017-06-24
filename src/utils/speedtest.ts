@@ -54,7 +54,7 @@ interface SpeedtestConfig {
 interface SpeedtestResult {
   bestServer: SpeedtestServer;
   bestServers: SpeedtestServer[];
-  config: any;
+  config: SpeedtestConfig;
   downloadSpeed: number;
   resultUrl: undefined | string;
   servers: SpeedtestServer[];

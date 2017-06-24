@@ -6,6 +6,6 @@
     "outDir": "build",
     "allowSyntheticDefaultImports": true,
     "noImplicitThis": false,
-    "sourceMap": true
+    "noUnusedLocals": true
   }
 }
