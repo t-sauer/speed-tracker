@@ -10,7 +10,7 @@ export const sequelize = new Sequelize('speed-tracker', '', '', {
 
 const db: { [modelName: string]: any } = fs
   .readdirSync(__dirname)
-  .filter((file) => file.includes('.') && !file.endsWith('.map') && file !== 'index.js')
+  .filter((file) => file.includes('.') && !file.endsWith('.map') && !file.startsWith('index.'))
   .reduce((obj: { [modelName: string]: any }, file) => {
     const model = sequelize.import(path.join(__dirname, file)) as any;
     obj[model.name as string] = model;

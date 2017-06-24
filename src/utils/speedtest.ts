@@ -1,3 +1,5 @@
+import Models from '../models';
+
 const speedtestNet = require('speedtest-net');
 
 interface SpeedtestServer {
@@ -131,6 +133,38 @@ export default class Speedtest {
       this._test = test;
     });
 
+  }
+
+  public async save() {
+    if (!this._isFinished) {
+      throw new Error('The speedtest has to be finished before a server model can be retreived');
+    }
+
+    await this.saveServerModel();
+    await this.saveSpeedtestModel();
+  }
+
+  private async saveServerModel() {
+    const model = await Models.Server
+      .findOrCreate({
+        defaults: { ...this.server },
+        where: { id:  this.server.id }
+      });
+
+    return model;
+  }
+
+  private async saveSpeedtestModel() {
+    const model = await Models.Speedtest
+      .create({
+        downloadSpeed: this.downloadSpeed,
+        endTime: this.endTime,
+        ping: this.ping,
+        startTime: this.startTime,
+        uploadSpeed: this.uploadSpeed
+      });
+
+    return model;
   }
 
   private setTestResults(result: SpeedtestResult): void {
