@@ -79,7 +79,9 @@ export default class Speedtest {
 
   private _test: any;
 
-  constructor(readonly _speedtester = speedtestNet) {}
+  constructor(
+    private readonly _speedtester = speedtestNet
+  ) {}
 
   get downloadSpeed() {
     return this._downloadSpeed;

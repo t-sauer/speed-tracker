@@ -1,5 +1,7 @@
 import * as express from 'express';
 
+import SpeedtestRunner from './utils/speedtest-runner';
+
 const port: number = process.env.PORT || 3000;
 const app = express();
 
@@ -10,3 +12,5 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`speed-tracker API started on port ${port}`);
 });
+
+const runner = new SpeedtestRunner(500);
