@@ -1,0 +1,11 @@
+{
+  "eslint.enable": false,
+  "jshint.enable": false,
+  "jscs.enable": false,
+  "tslint.enable": true,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/build": true,
+    "**/bower_components": true
+  }
+}
