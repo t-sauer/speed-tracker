@@ -9,7 +9,9 @@
         "no-console": [false],
         "no-unused-expression": [false],
         "no-var-requires": false,
-        "trailing-comma": [false]
+        "trailing-comma": [false],
+        "variable-name": ["allow-leading-underscore"],
+        "interface-name": ["never-prefix"]
     },
     "rulesDirectory": []
 }
