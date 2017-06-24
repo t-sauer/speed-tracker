@@ -93,10 +93,6 @@ export default class Speedtest {
     return this._server.bestPing;
   }
 
-  get isFinished() {
-    return this._isFinished;
-  }
-
   get startTime() {
     return this._startTime;
   }
