@@ -4,16 +4,22 @@ export default class SpeedtestRunner {
 
   private _handlers: Array<(test: Speedtest) => any> = [];
 
+  private _timer: NodeJS.Timer;
+
   constructor(
     readonly testInterval: number
   ) {
-    setTimeout(() => {
+    this._timer = setTimeout(() => {
       this.runTest();
     }, 0);
   }
 
   public onTestFinished(callback: (test: Speedtest) => any) {
     this._handlers.push(callback);
+  }
+
+  public stop() {
+    clearTimeout(this._timer);
   }
 
   private async runTest() {
@@ -26,7 +32,7 @@ export default class SpeedtestRunner {
         handler(speedtest);
       });
     } finally {
-      setTimeout(() => {
+      this._timer = setTimeout(() => {
         this.runTest();
       }, this.testInterval);
     }

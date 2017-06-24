@@ -11,6 +11,7 @@ const { expect } = chai;
 describe('speedtest-runner', () => {
 
   let sandbox: sinon.SinonSandbox;
+  let runner: SpeedtestRunner;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -22,23 +23,25 @@ describe('speedtest-runner', () => {
 
   afterEach(() => {
     sandbox.restore();
+
+    runner.stop();
   });
 
   it('should trigger a speedtest', (done) => {
-    const runner = new SpeedtestRunner(10000);
+    runner = new SpeedtestRunner(10000);
 
-    runner.onTestFinished(() => {
-      expect(true).to.be.true;
+    runner.onTestFinished((result) => {
+      expect(result).to.be.an.instanceOf(Speedtest);
       done();
     });
   });
 
   it('should trigger multiple speedtests after each is done', (done) => {
-    const runner = new SpeedtestRunner(100);
+    runner = new SpeedtestRunner(100);
     let counter = 0;
 
-    runner.onTestFinished(() => {
-      expect(true).to.be.true;
+    runner.onTestFinished((result) => {
+      expect(result).to.be.an.instanceOf(Speedtest);
       counter++;
       if (counter > 1) {
         done();
