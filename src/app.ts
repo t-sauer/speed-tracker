@@ -1,6 +1,6 @@
 import * as express from 'express';
 
-import Models from './models';
+import { sequelize } from './models';
 
 // import SpeedtestRunner from './utils/speedtest-runner';
 
@@ -11,8 +11,18 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.listen(port, () => {
-  console.log(`speed-tracker API started on port ${port}`);
-});
+async function startServer() {
+  try {
+    await sequelize.sync();
 
+    app.listen(port, async () => {
+      console.log(`speed-tracker API started on port ${port}`);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+
+}
+
+startServer();
 // const runner = new SpeedtestRunner(500);
