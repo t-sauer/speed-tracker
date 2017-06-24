@@ -146,10 +146,7 @@ export default class Speedtest {
 
   private async saveServerModel() {
     const model = await Models.Server
-      .findOrCreate({
-        defaults: { ...this.server },
-        where: { id:  this.server.id }
-      });
+      .upsert({...this.server});
 
     return model;
   }
