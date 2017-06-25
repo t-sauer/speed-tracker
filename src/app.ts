@@ -1,72 +1,40 @@
 import * as compression from 'compression';
 import * as express from 'express';
-import * as Yayson from 'yayson';
 
-import Models, { sequelize } from './models';
+import { sequelize } from './models';
+import routes from './routes';
 
+import Speedtest from './utils/speedtest';
 import SpeedtestRunner from './utils/speedtest-runner';
 
 const port: number = process.env.PORT || 3000;
+const testInterval: number = (process.env.TEST_INTERVAL || 1) * 1000 * 60;
 const app = express();
+
 app.use(compression());
+app.use('/', routes);
 
-const { Presenter } = Yayson({
-  adapter: 'sequelize'
-});
-
-app.get('/', (req, res) => {
-  res.send('');
-});
-
-class SpeedtestPresenter extends Presenter {
-  public type = 'speedtest';
-}
-
-app.get('/speedtests/:id', async (req, res) => {
-  res.header('Content-Type', 'application/json');
-
+const speedtestFinishedHandler = (speedtest: Speedtest) => {
   try {
-    const item = await Models.Speedtest.findById(req.params.id);
-
-    if (!item) {
-      res.status(404);
-      res.send('Not found');
-      return;
-    }
-
-    res.send(SpeedtestPresenter.render(item));
+    speedtest.save();
   } catch (error) {
-    res.status(500);
-    res.send('Internal Server Error');
+    console.error(error);
   }
-});
+};
 
-app.get('/speedtests', async (req, res) => {
-  res.header('Content-Type', 'application/json');
-  const items = await Models.Speedtest.findAll();
-  res.send(SpeedtestPresenter.render(items, { meta: items.length }));
-});
-
-async function startServer() {
+(async () => {
   try {
     await sequelize.sync();
-    const timeout = 1000 * 60 / 100;
-    const runner = new SpeedtestRunner(timeout);
-    runner.onTestFinished((speedtest) => {
-      try {
-        speedtest.save();
-      } catch (error) {
-        console.error(error);
-      }
-    });
 
     app.listen(port, async () => {
+
+      const runner = new SpeedtestRunner(testInterval);
+      runner.onTestFinished(speedtestFinishedHandler);
+
       console.log(`speed-tracker API started on port ${port}`);
     });
   } catch (error) {
     console.error(error);
   }
 
-}
-
-startServer();
+})();
