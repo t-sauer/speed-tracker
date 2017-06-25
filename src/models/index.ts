@@ -3,9 +3,11 @@ import * as path from 'path';
 
 import * as Sequelize from 'sequelize';
 
+const database = process.env.NODE_ENV === 'test' ? 'test' : 'database';
+
 export const sequelize = new Sequelize('speed-tracker', '', '', {
   dialect: 'sqlite',
-  storage: './db/database.sqlite'
+  storage: `./db/${database}.sqlite`
 });
 
 const db: { [modelName: string]: any } = fs

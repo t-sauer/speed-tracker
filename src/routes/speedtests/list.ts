@@ -7,5 +7,5 @@ export default async (req: Request, res: Response) => {
   res.header('Content-Type', 'application/json');
   const items = await Models.Speedtest.findAll();
 
-  res.send(SpeedtestPresenter.render(items, { meta: items.length }));
+  res.send(SpeedtestPresenter.render(items, { meta: { count: items.length } }));
 };

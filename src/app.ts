@@ -28,8 +28,10 @@ const speedtestFinishedHandler = (speedtest: Speedtest) => {
 
     app.listen(port, async () => {
 
-      const runner = new SpeedtestRunner(testInterval);
-      runner.onTestFinished(speedtestFinishedHandler);
+      if (process.env.NODE_ENV !== 'test') {
+        const runner = new SpeedtestRunner(testInterval);
+        runner.onTestFinished(speedtestFinishedHandler);
+      }
 
       console.log(`speed-tracker API started on port ${port}`);
     });
@@ -38,3 +40,5 @@ const speedtestFinishedHandler = (speedtest: Speedtest) => {
   }
 
 })();
+
+export default app;
