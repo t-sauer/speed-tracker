@@ -7,8 +7,8 @@ import routes from './routes';
 import Speedtest from './utils/speedtest';
 import SpeedtestRunner from './utils/speedtest-runner';
 
-const port: number = process.env.PORT || 3000;
-const testInterval: number = (process.env.TEST_INTERVAL || 1) * 1000 * 60;
+const port: number = Number(process.env.PORT) || 3000;
+const testInterval: number = (Number(process.env.TEST_INTERVAL) || 1) * 1000 * 60;
 const app = express();
 
 app.use(compression());
