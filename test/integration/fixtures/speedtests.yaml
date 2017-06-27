@@ -1,0 +1,41 @@
+fixtures:
+  - model: Speedtest
+    data:
+      id: 1
+      downloadSpeed: 12.345
+      uploadSpeed: 54.321
+      startTime: 1498581758564
+      endTime: 1498581858564
+      ping: 10.34
+  - model: Speedtest
+    data:
+      id: 2
+      downloadSpeed: 12.345
+      uploadSpeed: 54.321
+      startTime: 1498581758564
+      endTime: 1498581858564
+      ping: 10
+  - model: Speedtest
+    data:
+      id: 3
+      downloadSpeed: 12.345
+      uploadSpeed: 54.321
+      startTime: 1498581758564
+      endTime: 1498581858564
+      ping: 10
+  - model: Speedtest
+    data:
+      id: 4
+      downloadSpeed: 12.345
+      uploadSpeed: 54.321
+      startTime: 1498581758564
+      endTime: 1498581858564
+      ping: 10
+  - model: Speedtest
+    data:
+      id: 5
+      downloadSpeed: 12.345
+      uploadSpeed: 54.321
+      startTime: 1498581758564
+      endTime: 1498581858564
+      ping: 10

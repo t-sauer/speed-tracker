@@ -7,4 +7,5 @@ build
 node_modules/
 /.nyc_output
 /db/database.sqlite
+/db/test.sqlite
 .DS_Store

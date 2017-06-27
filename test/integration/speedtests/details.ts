@@ -1,4 +1,5 @@
 import app from '../../../src/app';
+import { loadFixtures, resetDatabase } from '../helper/database';
 
 import * as chai from 'chai';
 const chaiHttp = require('chai-http');
@@ -7,23 +8,28 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('GET /speedtests/1', () => {
+
+  before(async () => {
+    await resetDatabase();
+    await loadFixtures();
+  });
+
   it('should return the specific test', async () => {
     const response = await chai.request(app).get('/speedtests/1');
+    const { body } = response;
 
     expect(response).to.have.status(200);
     expect(response).to.be.json;
-    expect(response.body).to.have.property('data').deep.equal({
-      attributes: {
-        createdAt: '2017-06-25T22:52:38.613Z',
-        downloadSpeed: 30.563299200954468,
-        endTime: 1498431158586,
-        ping: 54.412027,
-        startTime: 1498431101341,
-        updatedAt: '2017-06-25T22:52:38.613Z',
-        uploadSpeed: 1.8809014660492491
-      },
-      id: '1',
-      type: 'speedtest'
-    });
+
+    expect(body).to.have.nested.property('data.attributes.ping', 10.34);
+    expect(body).to.have.nested.property('data.attributes.endTime', 1498581858564);
+    expect(body).to.have.nested.property('data.attributes.startTime', 1498581758564);
+    expect(body).to.have.nested.property('data.attributes.uploadSpeed', 54.321);
+    expect(body).to.have.nested.property('data.attributes.downloadSpeed', 12.345);
+
+    expect(body).to.have.nested.property('data.id', '1');
+    expect(body).to.have.nested.property('data.type', 'speedtest');
+
+    return response;
   });
 });
