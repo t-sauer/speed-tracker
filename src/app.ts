@@ -14,13 +14,7 @@ const app = express();
 app.use(compression());
 app.use('/', routes);
 
-const speedtestFinishedHandler = (speedtest: Speedtest) => {
-  try {
-    speedtest.save();
-  } catch (error) {
-    console.error(error);
-  }
-};
+const speedtestFinishedHandler = (speedtest: Speedtest) => speedtest.save();
 
 (async () => {
   try {

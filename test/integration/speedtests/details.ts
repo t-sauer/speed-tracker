@@ -29,7 +29,14 @@ describe('GET /speedtests/1', () => {
 
     expect(body).to.have.nested.property('data.id', '1');
     expect(body).to.have.nested.property('data.type', 'speedtest');
+  });
 
-    return response;
+  it('should return 404 for an non existing test', async () => {
+    try {
+      await chai.request(app).get('/speedtests/99999');
+    } catch (errorResponse) {
+      expect(errorResponse).to.have.status(404);
+    }
+
   });
 });
